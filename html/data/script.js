@@ -1,29 +1,30 @@
 function getPokemonsByType (typeName){
     let pokemon_list = []
-    for(let pokemon in Pokemon.all_pokemons){
+
+    for(let pokemon of Pokemon.all_pokemons){
         if(pokemon.getTypes()[0] === typeName || pokemon.getTypes()[1] === typeName){
             pokemon_list.push(pokemon)
         }
     }
 
     let compteur = 0
-    for(let pokemon in pokemon_list){
+    for(let pokemon of pokemon_list){
         compteur++
         console.log("<ici le " + pokemon.toString() + " du " + compteur + "Pokémon")
     }
 }
 
 function getPokemonByAttack (attackName) {
-    let pokemon_list
+    let pokemon_list = []
 
-    for(let pokemon in Pokemon.all_pokemons){
-        if(pokemon.getAttacks().includes(attackName)){
+    for(let pokemon of Pokemon.all_pokemons){
+        if(pokemon.getAttacks().fast.some(a => a.name === attackName) || pokemon.getAttacks().charged.some(a => a.name === attackName)){
             pokemon_list.push(pokemon)
         }
     }
 
     let compteur = 0
-    for(let pokemon in pokemon_list){
+    for(let pokemon of pokemon_list){
         compteur++
         console.log("<ici le " + pokemon.toString() + " du " + compteur + "Pokémon")
     }
@@ -74,4 +75,8 @@ fill_attacks()
 console.log(Attack.all_attacks)
 fill_pokemons()
 console.log(Pokemon.all_pokemons)
+
+
+getPokemonsByType('Normal')
+console.log('___________________________________')
 getPokemonByAttack('Power Whip')
