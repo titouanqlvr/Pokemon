@@ -15,16 +15,4 @@ class Attack{
     toString() {
         return this.name + " : " + this.id_attack + ", " + this.type + ", " + this.power + ", " + this.duration     
     }
-
-    fill_attacks() {
-        fast_moves.forEach(element => {
-            let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'],fast = 1)
-            all_attacks.push(attack)
-        })
-
-        charged_moves.forEach(element => {
-            let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'], charged = 1)
-            all_attacks.push(attack)
-        })
-    }
 }
