@@ -26,8 +26,14 @@ function getPokemonByAttack (attackName) {
     let compteur = 0
     for(let pokemon of pokemon_list){
         compteur++
-        console.log("<ici le " + pokemon.toString() + " du " + compteur + "Pokémon")
+        console.log("<ici le " + pokemon.toString() + " du " + compteur + " Pokémon")
     }
+}
+
+function getAttacksByType(typeName) {
+    let pokemon_list = []
+
+    
 }
 
 
