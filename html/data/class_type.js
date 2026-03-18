@@ -4,23 +4,24 @@ class Type {
         this.typeEfficienty = typeEfficienty;
     }
 
-    createEffectiveness(type){
-        const uniqueValue = [...new Set(Object.values(type_effectiveness[type]))];
-        return uniqueValue;
+    toString(type) {
+    const dict = {};
+
+    for (const defenderType in this.typeEfficienty[type]) {
+        const multiplier = this.typeEfficienty[type][defenderType];
+        if (!dict[multiplier]) dict[multiplier] = [];
+        dict[multiplier].push(defenderType);
     }
 
-    getEfficienty(type){
-        const uniqueValue = this.createEffectiveness(type);
-        return uniqueValue.map(element => ({
-            multiplier : element, 
-            types : Object.entries(type_effectiveness[type])
-            .filter(([_, mult]) => mult === element)
-            .map(([t]) => t)
-        }))
+    let result = `${type} : `;
+    for (const multiplier in dict) {
+        result += `${multiplier} = [${dict[multiplier].join(', ')}], `;
     }
-    toString() {        
-        return this.typeEfficienty;
-    }
+
+    return result;
+}
 }
 const chart = new Type(type_effectiveness);
-console.log(chart.getEfficienty("Bug"));
+console.log(chart.toString("Bug"));
+
+
