@@ -1,15 +1,26 @@
 
 class Type {
-    constructor(typeAttaque) {
-        this.typeAttaque = typeAttaque
+    constructor(typeEfficienty) {
+        this.typeEfficienty = typeEfficienty;
     }
 
-    createEffectiveness(){
-        const type = type_effectiveness[this.typeAttaque]
-        const effective= [];
-        for()
+    createEffectiveness(type){
+        const uniqueValue = [...new Set(Object.values(type_effectiveness[type]))];
+        return uniqueValue;
     }
-    // toString(){
-    //     return effectiveness + " :" + nonEffective + ;
-    // }
+
+    getEfficienty(type){
+        const uniqueValue = this.createEffectiveness(type);
+        return uniqueValue.map(element => ({
+            multiplier : element, 
+            types : Object.entries(type_effectiveness[type])
+            .filter(([_, mult]) => mult === element)
+            .map(([t]) => t)
+        }))
+    }
+    toString() {        
+        return this.typeEfficienty;
+    }
 }
+const chart = new Type(type_effectiveness);
+console.log(chart.getEfficienty("Bug"));
