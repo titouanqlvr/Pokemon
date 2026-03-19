@@ -7,10 +7,8 @@ function getPokemonsByType (typeName){
         }
     }
 
-    let compteur = 0
     for(let pokemon of pokemon_list){
-        compteur++
-        console.log("<ici le " + pokemon.toString() + " du " + compteur + "Pokémon")
+        console.log(pokemon.toString())
     }
 }
 
@@ -23,26 +21,40 @@ function getPokemonByAttack (attackName) {
         }
     }
 
-    let compteur = 0
     for(let pokemon of pokemon_list){
-        compteur++
-        console.log("<ici le " + pokemon.toString() + " du " + compteur + " Pokémon")
+        console.log(pokemon.toString())
     }
 }
 
 function getAttacksByType(typeName) {
-    let pokemon_list = []
+    let attack_list = []
 
-    
+    for(let attack of Attack.all_attacks){
+        if(attack.type === typeName){
+            attack_list.push(attack)
+        }
+    } 
+
+    for(let attack of attack_list){
+        console.log(attack.toString())
+    }
 }
 
+function sortPokemonByTypeThenName() {
+    let sorted_list = []
+
+    for(let type in Type.all_types){
+        let given_type_list = getPokemonsByType(type.name)
+        
+    }
+}
 
 
 
 function fill_types() {
     typeEfficienty.forEach(element => {
         let type = new Type(element['typeEfficienty'], element['type']);
-        Type.all_type.push(type);
+        Type.all_types.push(type);
     })
 }
 
@@ -71,7 +83,7 @@ function fill_pokemons() {
                             let type_1 = types['type'][0]
                             let type_2 = null
                             if(types['type'][1]){
-                                let type_2 = types['type'][1]
+                                type_2 = types['type'][1]
                             }
                             Pokemon.all_pokemons.push(new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves))
                         }
@@ -82,6 +94,8 @@ function fill_pokemons() {
     })
 }
 
+fill_types()
+console.log(Type.all_types)
 fill_attacks()
 console.log(Attack.all_attacks)
 fill_pokemons()
@@ -91,3 +105,5 @@ console.log(Pokemon.all_pokemons)
 getPokemonsByType('Normal')
 console.log('___________________________________')
 getPokemonByAttack('Power Whip')
+console.log('___________________________________')
+getAttacksByType('Fire')

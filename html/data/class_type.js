@@ -1,4 +1,7 @@
 class Type {
+
+    static all_types = []
+
     constructor(typeEfficienty, type) {
         this.typeEfficienty = typeEfficienty;
         this.type = type;
@@ -23,6 +26,3 @@ class Type {
         return result;
     }
 }
-
-const chart = new Type(type_effectiveness, "Dark");
-console.log(chart.toString());
