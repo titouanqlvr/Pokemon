@@ -43,13 +43,24 @@ function getAttacksByType(typeName) {
 function sortPokemonByTypeThenName() {
     let sorted_list = []
 
-    for(let type in Type.all_types){
+    for(let type of Type.all_types){
         let given_type_list = getPokemonsByType(type.name)
-        
+        given_type_list.sort()
+        sorted_list.push(given_type_list)
+    }
+
+    for(let pokemon in sorted_list){
+        console.log(pokemon.toString())
     }
 }
 
 
+
+/*
+
+Functions to fill the static array of class Type, Attack and Pokemon
+
+*/
 
 function fill_types() {
     typeEfficienty.forEach(element => {
@@ -57,7 +68,6 @@ function fill_types() {
         Type.all_types.push(type);
     })
 }
-
 
 function fill_attacks() {
     fast_moves.forEach(element => {
@@ -107,3 +117,9 @@ console.log('___________________________________')
 getPokemonByAttack('Power Whip')
 console.log('___________________________________')
 getAttacksByType('Fire')
+console.log('___________________________________')
+sortPokemonByTypeThenName()
+console.log('___________________________________')
+
+console.log('___________________________________')
+console.log('___________________________________')
