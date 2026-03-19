@@ -1,5 +1,5 @@
 class Type {
-    static all_types = {};
+    static all_types = [];
 
     constructor(effectiveness, name) {
         this.effectiveness = effectiveness;
@@ -27,7 +27,3 @@ class Type {
         return `${this.name} : ${parts.join(", ")}`;
     }
 }
-
-
-const chart = new Type(type_effectiveness["Dark"], "Dark");
-console.log(chart.toString());
