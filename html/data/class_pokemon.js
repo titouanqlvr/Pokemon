@@ -13,10 +13,10 @@ class Pokemon{
         
         this.types = []
         if(type_1 instanceof Type){
-            this.types.push(new Type())
+            this.types.push(type_1)
         }
-        if(type_2 instanceof Type){
-            this.types.push(new Type())
+        if(type_2 instanceof Type && type_2 != null){
+            this.types.push(type_2)
         }
         
         this.fast_attack = []
@@ -38,10 +38,29 @@ class Pokemon{
             })
             
         }
+
+        this.fast_attack_chain = ""
+        this.charged_attack_chain = ""
+
+        if(this.fast_attack.length != 0){
+            for(let attack of this.fast_attack){
+                this.fast_attack_chain = this.fast_attack_chain + attack.name + ", "
+            }
+        }
+        
+        if(this.charged_attack.length != 0){
+            for(let attack of this.charged_attack){
+                this.charged_attack_chain = this.charged_attack_chain + attack.name + ", "
+            }
+        }
     }
 
     toString() {
-        return this.name + " : " + this.id_pokemon + ", " + this.type_1 + ", " + this.type_2 + ", " + this.stat_chain + ", Rapides = " + this.fast_attack + ", Chargées = " + this.charged_attack 
+        if(this.types[1] != null){
+            return this.name + " : " + this.id_pokemon + ", " + this.types[0].name + ", " + this.types[1].name + ", " + this.stat_chain + ", Rapides = " + this.fast_attack_chain + ", Chargées = " + this.charged_attack_chain 
+        } else {
+            return this.name + " : " + this.id_pokemon + ", " + this.types[0].name + ", " + this.stat_chain + ", Rapides = " + this.fast_attack_chain + ", Chargées = " + this.charged_attack_chain 
+        }
     }
 
     getTypes() {
