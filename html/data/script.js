@@ -55,7 +55,12 @@ function sortPokemonByTypeThenName() {
 }
 
 
-
+function getWeakestEnemies(attackName){
+    attackType = attackName.type;
+    for(let type in Type.all_type){
+        if()
+    }
+}
 /*
 
 Functions to fill the static array of class Type, Attack and Pokemon
