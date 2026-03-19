@@ -52,8 +52,8 @@ function sortPokemonByTypeThenName() {
 
 
 function fill_types() {
-    typeEfficienty.forEach(element => {
-        let type = new Type(element['typeEfficienty'], element['type']);
+    type_effectiveness.forEach(element => {
+        let type = new Type(element['effectiveness'], element['name']);
         Type.all_types.push(type);
     })
 }
