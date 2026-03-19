@@ -1,28 +1,33 @@
 class Type {
-    constructor(typeEfficienty, type) {
-        this.typeEfficienty = typeEfficienty;
-        this.type = type;
-    }
+    static all_types = {};
 
-    remplirDico() {
-        const dict = {};
-        for (const defenderType in this.typeEfficienty[this.type]) {
-            const multiplier = this.typeEfficienty[this.type][defenderType];
-            if (!dict[multiplier]) dict[multiplier] = [];
-            dict[multiplier].push(defenderType);
-        }
-        return dict;
+    constructor(effectiveness, name) {
+        this.effectiveness = effectiveness;
+        this.name = name;
     }
 
     toString() {
-        const dict = this.remplirDico();
-        let result = `${this.type} : `;
-        for (const multiplier in dict) {
-            result += `${multiplier} = [${dict[multiplier].join(', ')}], `;
+        // 1. Regrouper les types par valeur d'efficacité (clés restent en string)
+        const groups = {};
+        for (const [defType, rate] of Object.entries(this.effectiveness)) {
+            if (!groups[rate]) groups[rate] = [];
+            groups[rate].push(defType);
         }
-        return result;
+
+        // 2. Trier les taux par ordre décroissant (conversion Number pour le tri)
+        const sortedRates = Object.keys(groups)
+            .sort((a, b) => Number(b) - Number(a)); 
+
+        // 3. Construire chaque segment
+        const parts = sortedRates.map(rate => {
+            const types = groups[rate].sort();
+            return `${rate} = [${types.join(", ")}]`;
+        });
+
+        return `${this.name} : ${parts.join(", ")}`;
     }
 }
 
-const chart = new Type(type_effectiveness, "Dark");
+
+const chart = new Type(type_effectiveness["Dark"], "Dark");
 console.log(chart.toString());
