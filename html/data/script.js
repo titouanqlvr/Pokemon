@@ -33,7 +33,12 @@ function getPokemonByAttack (attackName) {
 
 
 
-
+function fill_types() {
+    typeEfficienty.forEach(element => {
+        let type = new Type(element['typeEfficienty'], element['type']);
+        Type.all_type.push(type);
+    })
+}
 
 
 function fill_attacks() {
