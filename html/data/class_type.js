@@ -1,5 +1,5 @@
 class Type {
-    static all_types = [];
+    static all_types = {};
 
     constructor(effectiveness, name) {
         this.effectiveness = effectiveness;
