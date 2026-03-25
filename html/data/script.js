@@ -60,9 +60,9 @@ function sortPokemonByTypeThenName() {
 
 
 function getWeakestEnemies(attackName){
-    attackType = attackName.type;
+    let attackType
     for(let type in Type.all_type){
-        
+        // if(atta)
     }
 }
 /*
@@ -120,9 +120,9 @@ function fill_pokemons() {
  */
 
 fill_types()
-//console.log(Type.all_types)
+console.log(Type.all_types)
 fill_attacks()
-//console.log(Attack.all_attacks)
+console.log(Attack.all_attacks)
 fill_pokemons()
 //console.log(Pokemon.all_pokemons)
 
