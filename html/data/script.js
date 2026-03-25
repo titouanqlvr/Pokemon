@@ -58,7 +58,13 @@ function sortPokemonByTypeThenName() {
 function getWeakestEnemies(attackName){
     attackType = attackName.type;
     for(let type in Type.all_type){
+
     }
+}
+
+function getWeakestEnemiesEssai(attackName){
+    attackType = attackName.type;
+    
 }
 /*
 
