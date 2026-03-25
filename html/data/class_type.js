@@ -4,6 +4,7 @@ class Type {
     constructor(effectiveness, name) {
         this.effectiveness = effectiveness;
         this.name = name;
+        Type.all_types[name] = this;
     }
 
     toString() {

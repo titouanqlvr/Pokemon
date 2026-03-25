@@ -73,14 +73,39 @@ function sortPokemonByTypeThenName() {
 
 
 function getWeakestEnemies(attackName){
-    let attackType = attackName.type;
-    const effectif = Type.entries(Type[attackType].effectiveness)
-    .filter(([type, val]) => val > 1) 
+    let idAttack
+    for(let attack in Attack.all_attacks){
+        if(Attack.all_attacks[attack].name == attackName){
+            idAttack = Attack.all_attacks[attack].id_attack
+        }
+    }
+    let attackType = Attack.all_attacks[idAttack].type;
+    console.log(attackType)
+    let weakestEnemies = []
+    let bestEfficienty = 0;
+    let type2 = 1;
+    let typeEfficienty
     for (let pokemon in Pokemon.all_pokemons) {
         let type1 = Pokemon.all_pokemons[pokemon].getTypes()[0].name;
-        let type2 = Pokemon.all_pokemons[pokemon].getTypes()[1].name;
+        if(Pokemon.all_pokemons[pokemon].getTypes()[1] != null){
+            type2 = Pokemon.all_pokemons[pokemon].getTypes()[1].name;
+            const effectif1 = Type.all_types[attackType].effectiveness[type1]
+            const effectif2 = Type.all_types[attackType].effectiveness[type2]
+            typeEfficienty = effectif1 * effectif2;
+        } else {
+            typeEfficienty = Type.all_types[attackType].effectiveness[type1]
+        }
         
+        console.log(typeEfficienty)
+        if(bestEfficienty < typeEfficienty){
+            weakestEnemies = []
+            weakestEnemies.push(Pokemon.all_pokemons[pokemon])
+            bestEfficienty = typeEfficienty
+        } else if(bestEfficienty == typeEfficienty) {
+            weakestEnemies.push(Pokemon.all_pokemons[pokemon])
+        }
     }
+    return weakestEnemies
 }
 
 
@@ -155,6 +180,11 @@ console.log(Pokemon.all_pokemons)
 // console.log('___________________________________')
 // sortPokemonByTypeThenName()
 // console.log('___________________________________')
+weak = getWeakestEnemies("Vine Whip")
+console.log("ici")
+console.log(weak)
+// console.log('___________________________________')
+// console.log('___________________________________')
 
-// console.log('___________________________________')
-// console.log('___________________________________')
+ efficientyTest = Type.all_types["Bug"].effectiveness["Grass"];
+ console.log(efficientyTest)
