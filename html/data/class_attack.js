@@ -1,6 +1,6 @@
 class Attack{
 
-    static all_attacks = []
+    static all_attacks = {}
 
     constructor(id_attack, name, type, power, duration, fast = 0, charged = 0){
         this.id_attack = id_attack
