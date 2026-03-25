@@ -73,8 +73,12 @@ function sortPokemonByTypeThenName() {
 
 
 function getWeakestEnemies(attackName){
-    attackType = attackName.type;
-    for(let type in Type.all_type){
+    let attackType = attackName.type;
+    const effectif = Type.entries(Type[attackType].effectiveness)
+    .filter(([type, val]) => val > 1) 
+    for (let pokemon in Pokemon.all_pokemons) {
+        let type1 = Pokemon.all_pokemons[pokemon].getTypes()[0].name;
+        let type2 = Pokemon.all_pokemons[pokemon].getTypes()[1].name;
         
     }
 }
@@ -137,11 +141,11 @@ function fill_pokemons() {
  */
 
 fill_types()
-// console.log(Type.all_types)
+console.log(Type.all_types)
 fill_attacks()
-// console.log(Attack.all_attacks)
+console.log(Attack.all_attacks)
 fill_pokemons()
-// console.log(Pokemon.all_pokemons)
+console.log(Pokemon.all_pokemons)
 
 // getPokemonsByType('Fire')
 // console.log('___________________________________')
