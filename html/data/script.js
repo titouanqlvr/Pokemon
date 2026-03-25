@@ -1,27 +1,29 @@
 function getPokemonsByType (typeName){
     let pokemon_list = []
 
-    for(let pokemon of Pokemon.all_pokemons){
-        if(pokemon.getTypes()[0].name === typeName){
-            pokemon_list.push(pokemon)
-        } else if(pokemon.getTypes()[1] != null){
-            if(pokemon.getTypes()[1].name === typeName){
-                pokemon_list.push(pokemon)
+    for(let pokemon in Pokemon.all_pokemons){
+        if(Pokemon.all_pokemons[pokemon].getTypes()[0].name === typeName){
+            pokemon_list.push(Pokemon.all_pokemons[pokemon])
+        } else if(Pokemon.all_pokemons[pokemon].getTypes()[1] != null){
+            if(Pokemon.all_pokemons[pokemon].getTypes()[1].name === typeName){
+                pokemon_list.push(Pokemon.all_pokemons[pokemon])
             }
         }
     }
 
     for(let pokemon of pokemon_list){
-        console.log(pokemon.toString())
+        // console.log(pokemon.toString())
     }
+
+    return pokemon_list
 }
 
 function getPokemonByAttack (attackName) {
     let pokemon_list = []
 
-    for(let pokemon of Pokemon.all_pokemons){
-        if(pokemon.getAttacks().fast.some(a => a.name === attackName) || pokemon.getAttacks().charged.some(a => a.name === attackName)){
-            pokemon_list.push(pokemon)
+    for(let pokemon in Pokemon.all_pokemons){
+        if(Pokemon.all_pokemons[pokemon].getAttacks().fast.some(a => a.name === attackName) || Pokemon.all_pokemons[pokemon].getAttacks().charged.some(a => a.name === attackName)){
+            pokemon_list.push(Pokemon.all_pokemons[pokemon])
         }
     }
 
@@ -46,17 +48,30 @@ function getAttacksByType(typeName) {
 
 function sortPokemonByTypeThenName() {
     let sorted_list = []
-
+    let temp = []
     for(let type of Type.all_types){
-        let given_type_list = getPokemonsByType(type.name)
-        given_type_list.sort()
-        sorted_list.push(given_type_list)
+        given_type_list_pokemon = getPokemonsByType(type.name)
+        for(let pokemon of given_type_list_pokemon){
+            temp.push(pokemon.name)
+        }
+        temp.sort()
+        for(let pokemon_name of temp){
+            for(let pokemon in Pokemon.all_pokemons){
+                if(pokemon_name === Pokemon.all_pokemons[pokemon].name){
+                    sorted_list.push(Pokemon.all_pokemons[pokemon])
+                }
+            }
+        }
+        temp = []
     }
+    
 
-    for(let pokemon in sorted_list){
+    for(let pokemon of sorted_list){
         console.log(pokemon.toString())
     }
 }
+
+
 
 
 
@@ -86,8 +101,10 @@ function fill_attacks() {
 }
 
 function fill_pokemons() {
+    let temp = []
+    let compteur = 0
     pokemons.forEach(pokemon => {
-        if(pokemon['form'] == "Normal"){
+        if(pokemon['form'] === "Normal"){
             let id = pokemon['pokemon_id']
             pokemon_moves.forEach(moves => {
                 if(moves['pokemon_id'] === id && moves['form'] === "Normal"){
@@ -99,7 +116,7 @@ function fill_pokemons() {
                             if(types['type'][1]){
                                 type_2 = new Type(type_effectiveness[types['type'][1]],types['type'][1])
                             }
-                            Pokemon.all_pokemons.push(new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves))
+                            Pokemon.all_pokemons[id] = new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves)
                         }
                     })
                 }
@@ -119,10 +136,9 @@ fill_types()
 fill_attacks()
 //console.log(Attack.all_attacks)
 fill_pokemons()
-//console.log(Pokemon.all_pokemons)
+// console.log(Pokemon.all_pokemons)
 
-
-getPokemonsByType('Poison')
+// getPokemonsByType('Fire')
 // console.log('___________________________________')
 // getPokemonByAttack('Power Whip')
 // console.log('___________________________________')

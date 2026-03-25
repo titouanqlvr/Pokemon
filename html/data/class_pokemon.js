@@ -1,6 +1,6 @@
 class Pokemon{
 
-    static all_pokemons = []
+    static all_pokemons = {}
 
     constructor(id_pokemon, name, stamina, atk, def, type_1, type_2, attack_array){
         this.id_pokemon = id_pokemon
