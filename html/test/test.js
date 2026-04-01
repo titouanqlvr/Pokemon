@@ -12,9 +12,20 @@ function getPokemonsByType (typeName){
     }
 
     for(let pokemon of pokemon_list){
-        // console.log(pokemon.toString())
+        console.log(pokemon.toString())
     }
 
+    return pokemon_list
+}
+
+function getPokemonsByFirstType (typeName){
+    let pokemon_list = []
+
+    for(let pokemon in Pokemon.all_pokemons){
+        if(Pokemon.all_pokemons[pokemon].getTypes()[0].name === typeName){
+            pokemon_list.push(Pokemon.all_pokemons[pokemon])
+        }
+    }
     return pokemon_list
 }
 
@@ -47,10 +58,12 @@ function getAttacksByType(typeName) {
 }
 
 function sortPokemonByTypeThenName() {
+    
     let sorted_list = []
     let temp = []
     for(let type in Type.all_types){
-        given_type_list_pokemon = getPokemonsByType(Type.all_types[type].name)
+        given_type_list_pokemon = getPokemonsByFirstType(Type.all_types[type].name)
+
         for(let pokemon of given_type_list_pokemon){
             temp.push(pokemon.name)
         }
@@ -64,11 +77,7 @@ function sortPokemonByTypeThenName() {
         }
         temp = []
     }
-    
-
-    for(let pokemon of sorted_list){
-        console.log(pokemon.toString())
-    }
+    console.log(sorted_list)
 }
 
 
@@ -116,11 +125,9 @@ function getWeakestEnemies(attackName){
  */
 
 function fill_types() {
-    let compteur = 0
     for(let type in type_effectiveness){
         let t = new Type(type_effectiveness[type], type);
-        Type.all_types[compteur] = t;
-        compteur++
+        Type.all_types[type] = t;
     }
 }
 
@@ -149,8 +156,14 @@ function fill_pokemons() {
                             let type_2 = null
                             if(types['type'][1]){
                                 type_2 = new Type(type_effectiveness[types['type'][1]],types['type'][1])
+                                if(type_1.name < type_2.name){
+                                    Pokemon.all_pokemons[id] = new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves)
+                                } else {
+                                    Pokemon.all_pokemons[id] = new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_2, type_1, array_moves)
+                                }
+                            } else {
+                                Pokemon.all_pokemons[id] = new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves)
                             }
-                            Pokemon.all_pokemons[id] = new Pokemon(id, pokemon['pokemon_name'], pokemon['base_stamina'], pokemon['base_attack'], pokemon['base_defense'], type_1, type_2, array_moves)
                         }
                     })
                 }
