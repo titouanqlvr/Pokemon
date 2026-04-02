@@ -183,7 +183,7 @@ console.log(Type.all_types)
 fill_attacks()
 console.log(Attack.all_attacks)
 fill_pokemons()
-console.log(Pokemon.all_pokemons)
+//console.log(Pokemon.all_pokemons)
 
 // getPokemonsByType('Fire')
 // console.log('___________________________________')
