@@ -67,6 +67,8 @@ function printXPokemon(x,stage){
         tr.appendChild(td5)
         tr.appendChild(td6)
 
+        tr.dataset.id = pokemon.id_pokemon
+
         tbody.appendChild(tr)
     }
 }
@@ -95,12 +97,68 @@ function statePages(){
     }
 }
 
+function printPokemonDetails(id_pokemon){
+    let pokemon = Pokemon.all_pokemons[id_pokemon]
+
+    detailsZone.classList.add("detailsZone")
+    detailsZone.onclick = function (){
+        detailsZone
+    }
+
+    const h2 = document.createElement("h2")
+    h2.innerHTML = "Détail de : " + pokemon.name
+    detailsZone.appendChild(h2)
+
+    const table = document.createElement("table")
+    const trTop = document.createElement("tr")
+    const th0 = document.createElement("th")
+    const th1 = document.createElement("th")
+    const th2 = document.createElement("th")
+    th0.innerHTML = "Endurance"
+    th1.innerHTML = "Attaque"
+    th2.innerHTML = "Défense"
+    trTop.appendChild(th0)
+    trTop.appendChild(th1)
+    trTop.appendChild(th2)
+
+    const tr = document.createElement("tr")
+    const td0 = document.createElement("td")
+    const td1 = document.createElement("td")
+    const td2 = document.createElement("td")
+    td0.innerHTML = pokemon.stamina
+    td1.innerHTML = pokemon.atk
+    td2.innerHTML = pokemon.def
+    tr.appendChild(td0)
+    tr.appendChild(td1)
+    tr.appendChild(td2)
+
+    table.appendChild(trTop)
+    table.appendChild(tr)
+    
+    detailsZone.appendChild(table)
+
+    shadow.appendChild(detailsZone)
+}
+
+function addShadow(){
+    shadow.classList.add("shadow")
+    
+    shadow.onclick = function (){
+        shadow.remove()
+        detailsZone.innerHTML = ""
+        detailsZone.remove()
+    }
+    
+    pageBody.appendChild(shadow)
+}
+
 
 /**
  * 
  * Variables
  * 
  */
+const pageBody = document.getElementById("body")
 
 const tbody = document.getElementById("tbody")
 
@@ -111,7 +169,10 @@ const prec = document.getElementById("prec")
 const suiv = document.getElementById("suiv")
 const page = document.getElementById("page")
 
-let nbrPages = Math.floor(Object.values(Pokemon.all_pokemons).length / limitPerPage) + 1
+let nbrPages = Math.ceil(Object.values(Pokemon.all_pokemons).length / limitPerPage)
+
+const shadow = document.createElement("div")
+const detailsZone = document.createElement("article")
 
 
 /**
@@ -129,9 +190,14 @@ printXPokemon(limitPerPage,stage)
  * 
  */
 
-prec.addEventListener('click', (e) =>{
+prec.addEventListener('click', (e) => {
     statePages()
 })
-suiv.addEventListener('click', (e) =>{
+suiv.addEventListener('click', (e) => {
     statePages()
+})
+
+tbody.addEventListener('click', (e) => {
+    addShadow()
+    printPokemonDetails(e.target.closest("tr").dataset.id)
 })
