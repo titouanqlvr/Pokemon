@@ -83,6 +83,7 @@ function statePages(){
         }
     } else if(stage == nbrPages){
         suiv.disabled = true
+        prec.disabled = false
     } else {
         prec.disabled = false
         suiv.disabled = false
@@ -258,6 +259,7 @@ tbody.addEventListener('click', (e) => {
 })
 
 selectType.on("change", function() {
+    stage = 1
     if($(this).val() != ""){
         filter = getPokemonsByType($(this).val())
         printXPokemon(limitPerPage,stage,filter)
