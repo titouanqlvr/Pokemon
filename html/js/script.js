@@ -6,9 +6,10 @@
  */
 
 function printXPokemon(x,stage,pokemon_list = Object.values(Pokemon.all_pokemons)){
-
+    
     nbrPages = Math.ceil(pokemon_list.length / limitPerPage)
     statePages()
+
 
     tbody.innerHTML = ""
 
@@ -31,9 +32,9 @@ function printXPokemon(x,stage,pokemon_list = Object.values(Pokemon.all_pokemons
         let img = createPokemonImage(pokemon.id_pokemon)
         let popupImg = null
         img.addEventListener('mouseenter', (e) => {
-            popupImg = createPokemonImage(pokemon.id_pokemon, 100, 100)
+            popupImg = createPokemonImage(pokemon.id_pokemon)
             // popupImg.className = "popupImg"
-            pageBody.appendChild(popupImg)
+            popup.append(popupImg)
         })
         img.addEventListener('mouseleave', (e) => {
             if(popupImg){
@@ -68,9 +69,18 @@ function oldPage(){
 }
 
 function statePages(){
-    page.textContent = "Numero de page : " + stage + " / " + nbrPages
+    if(nbrPages === 0){
+        page.textContent = "Aucun pokemon trouvé"
+    } else {
+        page.textContent = "Numero de page : " + stage + " / " + nbrPages
+    }
     if(stage == 1){
         prec.disabled = true
+        if(stage == nbrPages){
+            suiv.disabled = true
+        } else {
+            suiv.disabled = false
+        }
     } else if(stage == nbrPages){
         suiv.disabled = true
     } else {
@@ -150,6 +160,7 @@ function printPokemonDetails(id_pokemon){
     tableAttack.appendChild(tbody)
 
     detailsZone.appendChild(tableAttack)
+    addShadow()
     shadow.appendChild(detailsZone)
 }
 
@@ -218,6 +229,8 @@ let filter = null
 
 const selectType = $("#selectType")
 
+const inputSearch = $("#search")
+const popup = $("#popupImg")
 /**
  * 
  * Direct execution
@@ -241,7 +254,6 @@ suiv.addEventListener('click', (e) => {
 })
 
 tbody.addEventListener('click', (e) => {
-    addShadow()
     printPokemonDetails(e.target.closest("tr").dataset.id)
 })
 
@@ -253,4 +265,15 @@ selectType.on("change", function() {
         filter = null
         printXPokemon(limitPerPage, stage)
     }
+})
+
+inputSearch.on("input", function() {
+    let array = []
+    stage = 1
+    for(let pokemon of Object.values(Pokemon.all_pokemons)){
+        if(pokemon.name.toLowerCase().includes($(this).val())){
+            array.push(pokemon)
+        }
+    }
+    printXPokemon(limitPerPage, stage, array)
 })

@@ -6,6 +6,8 @@
 
     <body id="body">
         <header>
+            <h1>Pokemon knowledges</h1>
+            <h4>R4.10 Complément web</h4>
         </header>
         
         <main>
@@ -13,7 +15,7 @@
                 <select name="" id="selectType">
                     <option value="">Type du pokemon</option>
                 </select>
-                <input type="text" placeholder="Bulbasaur">
+                <input type="text" placeholder="Bulbasaur" id="search">
             </section>
             <table>
                 <thead>
@@ -30,12 +32,16 @@
                 <tbody id="tbody"></tbody>
             </table>
             <p id="page"></p>
+        </main>
+        <nav>
             <button onclick="oldPage()" id="prec">Prec</button>
             <button onclick="nextPage()" id="suiv">Suiv</button>
-        </main>
-
+        </nav>
+        <aside id="popupImg"></aside>
         <footer>
-
+            <h2>Développeurs : </h2>
+            <p>Mathis Loquais</p>
+            <p>Titouan Quillévéré</p>
         </footer>
     </body>
     <script src="js/jquery-3.7.1.min.js" defer></script>
