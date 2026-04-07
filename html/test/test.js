@@ -118,6 +118,8 @@ function getWeakestEnemies(attackName){
 }
 
 
+
+
 /**
  * 
  * Functions to fill the static array of class Type, Attack and Pokemon

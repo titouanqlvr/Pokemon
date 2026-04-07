@@ -73,4 +73,13 @@ class Pokemon{
             charged : this.charged_attack
         }
     }
+    getBestFastAttacksForEnemy(print, pokemonName){
+        for(let pokemon in Pokemon.all_pokemons){
+            if(Pokemon.all_pokemons[pokemon].name == pokemonName){
+                idPokemon = Pokemon.all_pokemons[pokemon].idPokemon
+            }
+        }
+        let type = Pokemon.all_pokemons[idPokemon].getTypes()[0].name;
+        
+    }
 }
