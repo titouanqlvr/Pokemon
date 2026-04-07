@@ -181,9 +181,9 @@ function fill_pokemons() {
  */
 
 fill_types()
-console.log(Type.all_types)
+//console.log(Type.all_types)
 fill_attacks()
-console.log(Attack.all_attacks)
+//console.log(Attack.all_attacks)
 fill_pokemons()
 //console.log(Pokemon.all_pokemons)
 
@@ -195,11 +195,11 @@ fill_pokemons()
 // console.log('___________________________________')
 // sortPokemonByTypeThenName()
 // console.log('___________________________________')
-weak = getWeakestEnemies("Vine Whip")
-console.log("ici")
-console.log(weak)
+// weak = getWeakestEnemies("Vine Whip")
+// console.log("ici")
+// console.log(weak)
 // console.log('___________________________________')
 // console.log('___________________________________')
 
- efficientyTest = Type.all_types["Bug"].effectiveness["Grass"];
- console.log(efficientyTest)
+//  efficientyTest = Type.all_types["Bug"].effectiveness["Grass"];
+//  console.log(efficientyTest)

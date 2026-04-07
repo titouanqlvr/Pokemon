@@ -5,92 +5,85 @@
  * 
  */
 
-function printXPokemon(x,stage){
+function printXPokemon(x,stage,pokemon_list = Object.values(Pokemon.all_pokemons)){
+    
+    nbrPages = Math.ceil(pokemon_list.length / limitPerPage)
+    statePages()
+
 
     tbody.innerHTML = ""
 
     const start = (stage - 1) * x
     const end = start + x
-    let new_pokemons = Object.values(Pokemon.all_pokemons).slice(start,end)
-
+    let new_pokemons = pokemon_list.slice(start,end)
+    
     for(let pokemon of new_pokemons){
-        let tr = document.createElement("tr")
 
-        let td0 = document.createElement("td")
-        td0.appendChild(document.createTextNode(pokemon.id_pokemon))
-
-        let td1 = document.createElement("td")
-        td1.appendChild(document.createTextNode(pokemon.name))
-
-        let td2 = document.createElement("td")
-        let type1 = pokemon.getTypes()[0].name
-
-        if(pokemon.getTypes().length == 2){
-            let type2 = pokemon.getTypes()[1].name
-            td2.appendChild(document.createTextNode(type1 + " / " + type2))
-        } else {
-            td2.appendChild(document.createTextNode(type1))
-        }
-
-        let td3 = document.createElement("td")
-        td3.appendChild(document.createTextNode(pokemon.stamina))
-
-        let td4 = document.createElement("td")
-        td4.append(document.createTextNode(pokemon.atk))
-
-        let td5 = document.createElement("td")
-        td5.appendChild(document.createTextNode(pokemon.def))
-
-
-        let id_pokemon = ""
-        if(pokemon.id_pokemon < 10){
-            id_pokemon = "00" + pokemon.id_pokemon
-        } else if(pokemon.id_pokemon < 100 && pokemon.id_pokemon >= 10){
-            id_pokemon = "0" + pokemon.id_pokemon
-        } else {
-            id_pokemon = pokemon.id_pokemon
-        }
-        let img = document.createElement("img")
-        img.setAttribute('src', 'webp/webp/images/' + id_pokemon + '.webp')
-        img.setAttribute('alt', pokemon.name)
-        img.setAttribute('height', '25px')
-        img.setAttribute('width', '25px')
-
-        let td6 = document.createElement("td")
-        td6.appendChild(img)
-
-        tr.appendChild(td0)
-        tr.appendChild(td1)
-        tr.appendChild(td2)
-        tr.appendChild(td3)
-        tr.appendChild(td4)
-        tr.appendChild(td5)
-        tr.appendChild(td6)
-
-        tr.dataset.id = pokemon.id_pokemon
-
-        tbody.appendChild(tr)
+        let tr = $(`
+            <tr data-id="${pokemon.id_pokemon}">
+                <td>${pokemon.id_pokemon}</td>
+                <td>${pokemon.name}</td>
+                <td>${pokemon.getTypes()[0].name + (pokemon.getTypes()[1] != null ? " / " + pokemon.getTypes()[1].name : "")}</td>
+                <td>${pokemon.stamina}</td>
+                <td>${pokemon.atk}</td>
+                <td>${pokemon.def}</td>
+            </tr>
+        `)
+        let img = createPokemonImage(pokemon.id_pokemon)
+        let popupImg = null
+        img.addEventListener('mouseenter', (e) => {
+            popupImg = createPokemonImage(pokemon.id_pokemon)
+            // popupImg.className = "popupImg"
+            popup.append(popupImg)
+        })
+        img.addEventListener('mouseleave', (e) => {
+            if(popupImg){
+                popupImg.remove()
+                popupImg = null
+            }
+        })
+        tr[0].appendChild(img)
+        tbody.appendChild(tr[0])
     }
 }
 
 function nextPage(){
     stage++
-    printXPokemon(limitPerPage,stage)
+    if(filter){
+        printXPokemon(limitPerPage,stage, filter)
+    } else {
+        printXPokemon(limitPerPage,stage)
+    }
 }
 
 function oldPage(){
     if(stage > 1){
         stage--
-        printXPokemon(limitPerPage,stage)
+        if(filter){
+            printXPokemon(limitPerPage,stage, filter)
+        } else {
+            printXPokemon(limitPerPage,stage)
+        }
+   
     }
 }
 
 function statePages(){
-    page.textContent = "Numero de page : " + stage + " / " + nbrPages
+    if(nbrPages === 0){
+        page.textContent = "Aucun pokemon trouvé"
+    } else {
+        page.textContent = "Numero de page : " + stage + " / " + nbrPages
+    }
     if(stage == 1){
         prec.disabled = true
+        if(stage == nbrPages){
+            suiv.disabled = true
+        } else {
+            suiv.disabled = false
+        }
     } else if(stage == nbrPages){
         suiv.disabled = true
+        prec.disabled = false
     } else {
         prec.disabled = false
         suiv.disabled = false
@@ -101,43 +94,94 @@ function printPokemonDetails(id_pokemon){
     let pokemon = Pokemon.all_pokemons[id_pokemon]
 
     detailsZone.classList.add("detailsZone")
-    detailsZone.onclick = function (){
-        detailsZone
-    }
 
     const h2 = document.createElement("h2")
-    h2.innerHTML = "Détail de : " + pokemon.name
+    h2.innerHTML = "Détail de : " + pokemon.name + " #" + pokemon.id_pokemon
     detailsZone.appendChild(h2)
 
+    detailsZone.appendChild(createPokemonImage(pokemon.id_pokemon))
+
+    const p = document.createElement("p")
+    p.innerHTML = pokemon.getTypes()[0].name + (pokemon.getTypes()[1] != null ? " / " + pokemon.getTypes()[1].name : "")  
+    detailsZone.appendChild(p)
+
     const table = document.createElement("table")
-    const trTop = document.createElement("tr")
-    const th0 = document.createElement("th")
-    const th1 = document.createElement("th")
-    const th2 = document.createElement("th")
-    th0.innerHTML = "Endurance"
-    th1.innerHTML = "Attaque"
-    th2.innerHTML = "Défense"
-    trTop.appendChild(th0)
-    trTop.appendChild(th1)
-    trTop.appendChild(th2)
+    let trTop = $(`
+        <tr>
+            <th>Endurance</th>
+            <th>Attaque</th>
+            <th>Défense</th>
+        </tr>
+    `)
 
-    const tr = document.createElement("tr")
-    const td0 = document.createElement("td")
-    const td1 = document.createElement("td")
-    const td2 = document.createElement("td")
-    td0.innerHTML = pokemon.stamina
-    td1.innerHTML = pokemon.atk
-    td2.innerHTML = pokemon.def
-    tr.appendChild(td0)
-    tr.appendChild(td1)
-    tr.appendChild(td2)
+    let tr = $(`
+        <tr>
+            <td>${pokemon.stamina}</td>
+            <td>${pokemon.atk}</td>
+            <td>${pokemon.def}</td>
+        </tr>
+    `)
 
-    table.appendChild(trTop)
-    table.appendChild(tr)
-    
+    table.appendChild(trTop[0])
+    table.appendChild(tr[0])
     detailsZone.appendChild(table)
+    
+    let tableAttack = document.createElement("table")
+    let thead = $(`
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Puissance</th>
+                <th>Durée</th>
+                <th>Rapide</th>
+                <th>Chargé</th>
+            </tr>
+        </thead>
+    `)
+    tableAttack.appendChild(thead[0])
 
+    let tbody = document.createElement("tbody")
+
+    for (let attack of pokemon.fast_attack.concat(pokemon.charged_attack)) {
+        let tr = $(`
+            <tr>
+                <td>${attack.id_attack}</td>
+                <td>${attack.name}</td>
+                <td>${attack.type}</td>
+                <td>${attack.power}</td>
+                <td>${attack.duration}</td>
+                <td>${attack.fast === 1 ? "X" : ""}</td>
+                <td>${attack.charged === 1 ? "X" : ""}</td>
+            </tr>
+        `)
+        tbody.appendChild(tr[0])
+    }
+    tableAttack.appendChild(tbody)
+
+    detailsZone.appendChild(tableAttack)
+    addShadow()
     shadow.appendChild(detailsZone)
+}
+
+function createPokemonImage(id_pokemon, width = 25, height = 25){
+    let imgId = ""
+
+    if(id_pokemon < 10){
+        imgId = "00" + id_pokemon
+    } else if(id_pokemon < 100 && id_pokemon >= 10){
+        imgId = "0" + id_pokemon
+    } else {
+        imgId = id_pokemon
+    }
+    let img = document.createElement("img")
+    img.setAttribute('src', 'webp/images/' + imgId + '.webp')
+    img.setAttribute('alt', Pokemon.all_pokemons[id_pokemon].name)
+    img.setAttribute('height', height)
+    img.setAttribute('width', width)
+
+    return img
 }
 
 function addShadow(){
@@ -152,37 +196,50 @@ function addShadow(){
     pageBody.appendChild(shadow)
 }
 
+function fillSelectWithType(){
+
+    for(let type of Object.values(Type.all_types)){
+        let option = $("<option>").text(type.name).val(type.name)
+        $(selectType).append(option)
+    }
+}
+
 
 /**
  * 
  * Variables
  * 
  */
-const pageBody = document.getElementById("body")
+const pageBody = $("#body")[0]
 
-const tbody = document.getElementById("tbody")
+const tbody = $("#tbody")[0]
 
 const limitPerPage = 25
 let stage = 1
 
-const prec = document.getElementById("prec")
-const suiv = document.getElementById("suiv")
-const page = document.getElementById("page")
+const prec = $("#prec")[0]
+const suiv = $("#suiv")[0]
+const page = $("#page")[0]
 
 let nbrPages = Math.ceil(Object.values(Pokemon.all_pokemons).length / limitPerPage)
 
 const shadow = document.createElement("div")
 const detailsZone = document.createElement("article")
 
+let filter = null
 
+const selectType = $("#selectType")
+
+const inputSearch = $("#search")
+const popup = $("#popupImg")
 /**
  * 
  * Direct execution
  * 
  */
 
-statePages()
 printXPokemon(limitPerPage,stage)
+fillSelectWithType()
 
 /**
  * 
@@ -198,6 +255,27 @@ suiv.addEventListener('click', (e) => {
 })
 
 tbody.addEventListener('click', (e) => {
-    addShadow()
     printPokemonDetails(e.target.closest("tr").dataset.id)
+})
+
+selectType.on("change", function() {
+    stage = 1
+    if($(this).val() != ""){
+        filter = getPokemonsByType($(this).val())
+        printXPokemon(limitPerPage,stage,filter)
+    } else {
+        filter = null
+        printXPokemon(limitPerPage, stage)
+    }
+})
+
+inputSearch.on("input", function() {
+    let array = []
+    stage = 1
+    for(let pokemon of Object.values(Pokemon.all_pokemons)){
+        if(pokemon.name.toLowerCase().includes($(this).val())){
+            array.push(pokemon)
+        }
+    }
+    printXPokemon(limitPerPage, stage, array)
 })
