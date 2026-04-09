@@ -73,13 +73,38 @@ class Pokemon{
             charged : this.charged_attack
         }
     }
-    getBestFastAttacksForEnemy(print, pokemonName){
-        for(let pokemon in Pokemon.all_pokemons){
-            if(Pokemon.all_pokemons[pokemon].name == pokemonName){
-                idPokemon = Pokemon.all_pokemons[pokemon].idPokemon
+    getBestFastAttacksForEnemy(print, pokemonName) {
+        let pokemonB = null;
+        for (let key in Pokemon.all_pokemons) {
+            if (Pokemon.all_pokemons[key].name === pokemonName) {
+                pokemonB = Pokemon.all_pokemons[key];
+                break;
             }
         }
-        let type = Pokemon.all_pokemons[idPokemon].getTypes()[0].name;
-        
+        if (!pokemonB) return [];
+
+        let results = [];
+
+        for (let attack of this.fast_attack) {
+            let totalEffectiveness = 1.0;
+            for (let typeB of pokemonB.types) {
+                let effectiveness = Type.all_types[attack.type]?.effectiveness[typeB.name] ?? 1.0;
+                totalEffectiveness *= effectiveness;
+            }
+
+            let damage = attack.power * totalEffectiveness * (this.atk / pokemonB.def);
+
+            results.push({ attack, damage });
+        }
+
+        results.sort((a, b) => b.damage - a.damage);
+
+        if (print) {
+            for (let { attack, damage } of results) {
+                console.log(attack.toString() + " Dégâts : " + damage.toFixed(2));
+            }
+        }
+
+        return results;
     }
 }

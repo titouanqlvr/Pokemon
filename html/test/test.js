@@ -203,3 +203,5 @@ fill_pokemons()
 
 //  efficientyTest = Type.all_types["Bug"].effectiveness["Grass"];
 //  console.log(efficientyTest)
+
+Pokemon.all_pokemons["1"].getBestFastAttacksForEnemy(true, "Charmander");
