@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
@@ -12,20 +12,35 @@
         
         <main>
             <section>
-                <select name="" id="selectType">
-                    <option value="">Type du pokemon</option>
-                </select>
-                <input type="text" placeholder="Bulbasaur" id="search">
+                <article>
+                    <div>
+                        <input type="text" placeholder="Dragon" id="searchType">
+                        <div id="resultSearchType"></div>
+                    </div>
+                    <div id="selectedType"></div>
+                </article>
+
+                <article>
+                    <div>
+                        <input type="text" placeholder="Quick Attack" id="searchAttack">
+                        <div id="resultSearchAttack"></div>
+                    </div>
+                    <div id="selectedAttack"></div>
+                </article>
+                <article class="last">
+                    <input type="text" placeholder="Bulbasaur" id="search">
+                    <button onclick="resetSort()" class="resetSort">Supprimer les filtres</button>
+                </article>
             </section>
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Type(s)</th>
-                        <th>Endurance</th>
-                        <th>Attaque</th>
-                        <th>Défense</th>
+                        <th id="sortById">ID</th>
+                        <th id="sortByName">Nom</th>
+                        <th id="sortByType">Type(s)</th>
+                        <th id="sortByStamina">Endurance</th>
+                        <th id="sortByAtk">Attaque</th>
+                        <th id="sortByDef">Défense</th>
                         <th>Image</th>
                     </tr>
                 </thead>
@@ -34,8 +49,8 @@
             <p id="page"></p>
         </main>
         <nav>
-            <button onclick="oldPage()" id="prec">Prec</button>
-            <button onclick="nextPage()" id="suiv">Suiv</button>
+            <button onclick="oldPage()" id="prec">< Prec</button>
+            <button onclick="nextPage()" id="suiv">Suiv ></button>
         </nav>
         <aside id="popupImg"></aside>
         <footer>

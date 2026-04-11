@@ -1,18 +1,18 @@
-function getPokemonsByType (typeName){
-    let pokemon_list = []
+function getPokemonsByType (typeName, table = Pokemon.all_pokemons){
+    let pokemon_list = {}
 
-    for(let pokemon in Pokemon.all_pokemons){
-        if(Pokemon.all_pokemons[pokemon].getTypes()[0].name === typeName){
-            pokemon_list.push(Pokemon.all_pokemons[pokemon])
-        } else if(Pokemon.all_pokemons[pokemon].getTypes()[1] != null){
-            if(Pokemon.all_pokemons[pokemon].getTypes()[1].name === typeName){
-                pokemon_list.push(Pokemon.all_pokemons[pokemon])
+    for(let pokemon in table){
+        if(table[pokemon].getTypes()[0].name === typeName){
+            pokemon_list[table[pokemon].id_pokemon] = table[pokemon]
+        } else if(table[pokemon].getTypes()[1] != null){
+            if(table[pokemon].getTypes()[1].name === typeName){
+                pokemon_list[table[pokemon].id_pokemon] = table[pokemon]
             }
         }
     }
 
-    for(let pokemon of pokemon_list){
-        console.log(pokemon.toString())
+    for(let pokemon in pokemon_list){
+        console.table(pokemon_list[pokemon].toString())
     }
 
     return pokemon_list
@@ -29,18 +29,20 @@ function getPokemonsByFirstType (typeName){
     return pokemon_list
 }
 
-function getPokemonByAttack (attackName) {
+function getPokemonByAttack (attackName,table = Pokemon.all_pokemons) {
     let pokemon_list = []
 
-    for(let pokemon in Pokemon.all_pokemons){
-        if(Pokemon.all_pokemons[pokemon].getAttacks().fast.some(a => a.name === attackName) || Pokemon.all_pokemons[pokemon].getAttacks().charged.some(a => a.name === attackName)){
-            pokemon_list.push(Pokemon.all_pokemons[pokemon])
+    for(let pokemon in table){
+        if(table[pokemon].getAttacks().fast.some(a => a.name === attackName) || table[pokemon].getAttacks().charged.some(a => a.name === attackName)){
+            pokemon_list.push(table[pokemon])
         }
     }
 
     for(let pokemon of pokemon_list){
-        console.log(pokemon.toString())
+        console.table(pokemon.toString())
     }
+
+    return pokemon_list
 }
 
 function getAttacksByType(typeName) {
@@ -53,7 +55,7 @@ function getAttacksByType(typeName) {
     } 
 
     for(let attack of attack_list){
-        console.log(attack.toString())
+        console.table(attack.toString())
     }
 }
 
@@ -77,7 +79,9 @@ function sortPokemonByTypeThenName() {
         }
         temp = []
     }
-    console.log(sorted_list)
+    console.table(sorted_list)
+
+    return sorted_list
 }
 
 
@@ -89,7 +93,7 @@ function getWeakestEnemies(attackName){
         }
     }
     let attackType = Attack.all_attacks[idAttack].type;
-    console.log(attackType)
+    console.table(attackType)
     let weakestEnemies = []
     let bestEfficienty = 0;
     let type2 = 1;
@@ -105,7 +109,7 @@ function getWeakestEnemies(attackName){
             typeEfficienty = Type.all_types[attackType].effectiveness[type1]
         }
         
-        console.log(typeEfficienty)
+        console.table(typeEfficienty)
         if(bestEfficienty < typeEfficienty){
             weakestEnemies = []
             weakestEnemies.push(Pokemon.all_pokemons[pokemon])
@@ -133,12 +137,12 @@ function fill_types() {
 
 function fill_attacks() {
     fast_moves.forEach(element => {
-        let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'],fast = 1)
+        let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'],1,0)
         Attack.all_attacks[element['move_id']] = attack
     })
 
     charged_moves.forEach(element => {
-        let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'], charged = 1)
+        let attack = new Attack(element['move_id'],element['name'],element['type'],element['power'],element['duration'],0,1)
         Attack.all_attacks[element['move_id']] = attack
     })
 }
@@ -179,25 +183,25 @@ function fill_pokemons() {
  */
 
 fill_types()
-//console.log(Type.all_types)
+//console.table(Type.all_types)
 fill_attacks()
-//console.log(Attack.all_attacks)
+// console.table(Attack.all_attacks)
 fill_pokemons()
-//console.log(Pokemon.all_pokemons)
+//console.table(Pokemon.all_pokemons)
 
 // getPokemonsByType('Fire')
-// console.log('___________________________________')
+// console.table('___________________________________')
 // getPokemonByAttack('Power Whip')
-// console.log('___________________________________')
+// console.table('___________________________________')
 // getAttacksByType('Fire')
-// console.log('___________________________________')
+// console.table('___________________________________')
 // sortPokemonByTypeThenName()
-// console.log('___________________________________')
+// console.table('___________________________________')
 // weak = getWeakestEnemies("Vine Whip")
-// console.log("ici")
-// console.log(weak)
-// console.log('___________________________________')
-// console.log('___________________________________')
+// console.table("ici")
+// console.table(weak)
+// console.table('___________________________________')
+// console.table('___________________________________')
 
 //  efficientyTest = Type.all_types["Bug"].effectiveness["Grass"];
-//  console.log(efficientyTest)
+//  console.table(efficientyTest)

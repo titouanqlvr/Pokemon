@@ -15,8 +15,8 @@
 .detailsZone{
     background-color : white;
     z-index : 1001;
-    height : 500px;
-    width : 500px;
+    height : 600px;
+    width : 800px;
 
     border-radius: 20px;
     padding-left: 20px;
@@ -25,7 +25,7 @@
 aside{
     position: fixed;
     margin-top: 20%;
-    margin-left: 50%;
+    margin-left: 82%;
 }
 aside > img {
     border-radius: 10px;
@@ -40,6 +40,11 @@ aside > img {
 @font-face {
     font-family: 'police';
     src: url('fonts/caviar_dreams/CaviarDreams.ttf');
+}
+
+@font-face {
+    font-family: 'boldPolice';
+    src: url('fonts/caviar_dreams/CaviarDreams_BoldItalic.ttf');
 }
 
 
@@ -64,6 +69,7 @@ header{
 
 main{
     margin: 50px 0 50px 0;
+    width: 70%;
 }
 
 footer{
@@ -88,7 +94,8 @@ button{
     border: none;
     background: linear-gradient(to right,#9198e5,#4facfe);
     font-size: large;
-    width: 100px;
+    width: 150px;
+    font-family: 'police';
 }
 button:hover{
     transform: scale(1.05);
@@ -98,6 +105,8 @@ button:hover{
 table{
     border-collapse: separate;
     border-spacing: 10px 5px;
+    table-layout: fixed;
+    width: 100%;
 }
 td{
     text-align: center;
@@ -109,9 +118,59 @@ select{
     appearance: base-select;
 }
 input{
-    margin-bottom: 10px;
     font-family: 'police';
-    height: 25px;
+    height: 35px;
     border-radius: 7px;
     border-width: 1px;
+}
+
+#resultSearchAttack, #resultSearchType{
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+    overflow-y: scroll;
+    max-height: 200px;
+    min-height: 50px;
+    width: 150px;
+}
+
+.added, .resetSort{
+    margin: 0;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(to right,#9198e5,#4facfe);
+}
+.added:hover{
+    transform: scale(1.02);
+}
+
+section > article{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+th{
+    background-color: #e66465;
+    padding: 5px;
+    border-radius: 5px;
+}
+th:hover{
+    transform: scale(1.02);
+}
+
+.resetSort{
+    width: max-content;
+}
+
+.last{
+    justify-content: space-between;
+}
+
+tr:hover{
+    background-color: lightgrey;
 }
