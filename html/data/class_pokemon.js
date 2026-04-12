@@ -81,23 +81,23 @@ class Pokemon{
                 break;
             }
         }
-        if (!pokemonB) return [];
+        if (!pokemonB) return null;
 
         let results = [];
-
         for (let attack of this.fast_attack) {
             let totalEffectiveness = 1.0;
             for (let typeB of pokemonB.types) {
                 let effectiveness = Type.all_types[attack.type]?.effectiveness[typeB.name] ?? 1.0;
                 totalEffectiveness *= effectiveness;
             }
-
             let damage = attack.power * totalEffectiveness * (this.atk / pokemonB.def);
-
-            results.push({ attack, damage });
+            results.push({ attack, damage, totalEffectiveness });
         }
 
-        results.sort((a, b) => b.damage - a.damage);
+        results.sort((a, b) => {
+            if (b.damage !== a.damage) return b.damage - a.damage;
+            return a.attack.name.localeCompare(b.attack.name);
+        });
 
         if (print) {
             for (let { attack, damage } of results) {
@@ -105,6 +105,8 @@ class Pokemon{
             }
         }
 
-        return results;
+        const best = results[0];
+        return { atk: best.attack, pts: best.damage, eff: best.totalEffectiveness };
     }
+    
 }

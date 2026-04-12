@@ -174,6 +174,74 @@ function fill_pokemons() {
     })
 }
 
+function fastFight(pokemonNameA, pokemonNameB) {
+    let pokemonA = null;
+    let pokemonB = null;
+
+    for (let key in Pokemon.all_pokemons) {
+        if (Pokemon.all_pokemons[key].name === pokemonNameA) pokemonA = Pokemon.all_pokemons[key];
+        if (Pokemon.all_pokemons[key].name === pokemonNameB) pokemonB = Pokemon.all_pokemons[key];
+    }
+
+    if (!pokemonA || !pokemonB) {
+        console.log("Pokémon introuvable.");
+        return;
+    }
+
+    let hpA = pokemonA.stamina;
+    let hpB = pokemonB.stamina;
+
+    let tour = 1;
+    let rows = [];
+
+    while (hpA > 0 && hpB > 0) {
+        let attaquant, defenseur, hpDef;
+
+        if (tour % 2 !== 0) {
+            attaquant = pokemonA;
+            defenseur = pokemonB;
+        } else {
+            attaquant = pokemonB;
+            defenseur = pokemonA;
+        }
+
+        let best = attaquant.getBestFastAttacksForEnemy(false, defenseur.name);
+
+        let degats = Math.floor(best.pts);
+
+        if (tour % 2 !== 0) {
+            hpB -= degats;
+            rows.push({
+                Tour: tour,
+                Attaquant: attaquant.name,
+                ATK: attaquant.atk,
+                Défenseur: defenseur.name,
+                DEF: defenseur.def,
+                "Nom Attaque": best.atk.name,
+                Efficacité: best.eff,
+                Dégâts: degats,
+                Reste: Math.max(hpB, 0)
+            });
+        } else {
+            hpA -= degats;
+            rows.push({
+                Tour: tour,
+                Attaquant: attaquant.name,
+                ATK: attaquant.atk,
+                Défenseur: defenseur.name,
+                DEF: defenseur.def,
+                "Nom Attaque": best.atk.name,
+                Efficacité: best.eff,
+                Dégâts: degats,
+                Reste: Math.max(hpA, 0)
+            });
+        }
+
+        tour++;
+    }
+
+    console.table(rows);
+}
 /**
  * 
  * Éxecution des fonction de remplissage et test des fonctions get
@@ -205,3 +273,4 @@ fill_pokemons()
 //  console.log(efficientyTest)
 
 Pokemon.all_pokemons["1"].getBestFastAttacksForEnemy(true, "Charmander");
+fastFight("Bulbasaur", "Charizard");
