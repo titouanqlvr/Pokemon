@@ -252,6 +252,7 @@ function filterPokemon(inputSearch = "", type_name = "", attack_id = "") {
 function resetSort() {
     boldToNormal()
     currentList = Object.values(Pokemon.all_pokemons)
+    filter = Object.values(Pokemon.all_pokemons)
     stage = 1
     selectedType.empty()
     selectedAttack.empty()
